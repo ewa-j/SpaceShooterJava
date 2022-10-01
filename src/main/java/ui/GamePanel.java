@@ -6,9 +6,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import objects.Background;
+import objects.Laser;
 import objects.Spaceship;
 
 public class GamePanel extends JPanel {
@@ -16,6 +19,7 @@ public class GamePanel extends JPanel {
   private Timer timer;
   private Spaceship spaceship;
   private Background background;
+  private List<Laser> lasers;
 
   public GamePanel() {
     initializeVariables();
@@ -27,6 +31,7 @@ public class GamePanel extends JPanel {
     spaceship = new Spaceship();
     addKeyListener(new GameEventListener(this));
     background = new Background(0,0);
+    lasers = new ArrayList<>();
   }
 
   private void startAnimation() {
@@ -52,6 +57,7 @@ public class GamePanel extends JPanel {
     graphics.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
     handleBackground(graphics);
     handleSpaceship(graphics);
+    handleLaser(graphics);
   }
 
   private void handleBackground(Graphics graphics) {
@@ -62,12 +68,30 @@ public class GamePanel extends JPanel {
     spaceship.update(graphics);
   }
 
+  private void handleLaser(Graphics graphics) {
+    for(Laser laser : lasers) {
+      if(!laser.isDead()) {
+        laser.update(graphics);
+      }
+    }
+  }
+
   public void loop() {
     repaint();
   }
 
   public void keyPressed(KeyEvent e) {
     spaceship.keyPressed(e);
+
+//    generate laser beam when space key is hit
+    int key = e.getKeyCode();
+
+    if (key == KeyEvent.VK_SPACE) {
+      int x = spaceship.getX();
+      int y = spaceship.getY();
+
+      lasers.add(new Laser(x, y));
+    }
   }
 
   public void keyReleased(KeyEvent e) {
