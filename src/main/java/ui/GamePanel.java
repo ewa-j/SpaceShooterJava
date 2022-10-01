@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import objects.Background;
 import objects.Laser;
+import objects.Meteor;
 import objects.Spaceship;
 
 public class GamePanel extends JPanel {
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel {
   private Spaceship spaceship;
   private Background background;
   private List<Laser> lasers;
+  private List<Meteor> meteors;
 
   public GamePanel() {
     initializeVariables();
@@ -32,6 +34,7 @@ public class GamePanel extends JPanel {
     addKeyListener(new GameEventListener(this));
     background = new Background(0,0);
     lasers = new ArrayList<>();
+    meteors = new ArrayList<>();
   }
 
   private void startAnimation() {
@@ -58,6 +61,7 @@ public class GamePanel extends JPanel {
     handleBackground(graphics);
     handleSpaceship(graphics);
     handleLaser(graphics);
+    handleMeteors(graphics);
   }
 
   private void handleBackground(Graphics graphics) {
@@ -76,7 +80,16 @@ public class GamePanel extends JPanel {
     }
   }
 
+  private void handleMeteors(Graphics graphics) {
+    for(Meteor meteor : meteors) {
+      if(!meteor.isDead()) {
+        meteor.update(graphics);
+      }
+    }
+  }
+
   public void loop() {
+    update();
     repaint();
   }
 
@@ -96,5 +109,11 @@ public class GamePanel extends JPanel {
 
   public void keyReleased(KeyEvent e) {
     spaceship.keyReleased(e);
+  }
+
+  private void update() {
+//    detect collisions
+//    check whether game is over
+//    generate random meteors
   }
 }

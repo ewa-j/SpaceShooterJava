@@ -16,4 +16,5 @@ public class Constants {
   public static final int LASER_SPEED = 4;
   public static final int LASER_WIDTH = 12;
   public static final int LASER_HEIGHT = 62;
+  public static final int METEOR_SPEED = 42;
 }
