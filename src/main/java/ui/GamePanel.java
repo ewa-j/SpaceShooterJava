@@ -14,6 +14,7 @@ import objects.Background;
 import objects.Laser;
 import objects.Meteor;
 import objects.Spaceship;
+import random.RandomGenerator;
 
 public class GamePanel extends JPanel {
 
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel {
   private Background background;
   private List<Laser> lasers;
   private List<Meteor> meteors;
+  private RandomGenerator randomGenerator;
 
   public GamePanel() {
     initializeVariables();
@@ -35,6 +37,7 @@ public class GamePanel extends JPanel {
     background = new Background(0,0);
     lasers = new ArrayList<>();
     meteors = new ArrayList<>();
+    randomGenerator = new RandomGenerator();
   }
 
   private void startAnimation() {
@@ -115,5 +118,10 @@ public class GamePanel extends JPanel {
 //    detect collisions
 //    check whether game is over
 //    generate random meteors
+    if (randomGenerator.isMeteorGenerated()) {
+      int randomX = randomGenerator.generateRandomX();
+      int randomY = 0 - Constants.METEOR_HEIGHT;
+      meteors.add(new Meteor(randomX, randomY));
+    }
   }
 }

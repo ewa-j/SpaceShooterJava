@@ -38,7 +38,7 @@ public class Meteor extends Sprite{
 //    move meteor from top to bottom
     y += Constants.METEOR_SPEED;
 //    if meteor outside canvas, remove it and game over
-    if (y >= Constants.LASER_HEIGHT) {
+    if (y >= Constants.FRAME_HEIGHT) {
       die();
 //      update image index
       imageIndex++;
