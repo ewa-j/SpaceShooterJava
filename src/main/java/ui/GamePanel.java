@@ -8,12 +8,14 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import objects.Background;
 import objects.Spaceship;
 
 public class GamePanel extends JPanel {
 
   private Timer timer;
   private Spaceship spaceship;
+  private Background background;
 
   public GamePanel() {
     initializeVariables();
@@ -24,6 +26,7 @@ public class GamePanel extends JPanel {
   private void initializeVariables() {
     spaceship = new Spaceship();
     addKeyListener(new GameEventListener(this));
+    background = new Background(0,0);
   }
 
   private void startAnimation() {
@@ -47,7 +50,12 @@ public class GamePanel extends JPanel {
   private void handleCanvas(Graphics graphics) {
     graphics.setColor(Color.ORANGE);
     graphics.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+    handleBackground(graphics);
     handleSpaceship(graphics);
+  }
+
+  private void handleBackground(Graphics graphics) {
+    background.update(graphics);
   }
 
   private void handleSpaceship(Graphics graphics) {
