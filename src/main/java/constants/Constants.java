@@ -12,4 +12,5 @@ public class Constants {
   public static final String LOGO_URL = "src/main/resources/images/meteor.png";
   public static final String BACKGROUND_URL = "src/main/resources/images/background.jpg";
   public static final String LASER_URL = "src/main/resources/images/laser_shot.png";
+  public static final int GAME_SPEED = 15; //approximately 67 FPS
 }

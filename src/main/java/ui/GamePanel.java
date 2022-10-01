@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 
   private void startAnimation() {
 //    update and re-paint the canvas in every N seconds
-    timer = new Timer(100, new GameLoop(this));
+    timer = new Timer(Constants.GAME_SPEED, new GameLoop(this));
     timer.start();
   }
 
