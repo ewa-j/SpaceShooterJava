@@ -2,6 +2,7 @@ package objects;
 
 import constants.Constants;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -31,6 +32,18 @@ public class Spaceship extends Sprite{
 
   @Override
   protected void update() {
+     x += dx;
+
+//     check the boundaries
+//     ship cannot go beyond the canvas on the left side
+    if (x <= 0) {
+      x = 0;
+    }
+    //     ship cannot go beyond the canvas on the right side
+    if (x >= Constants.FRAME_WIDTH-Constants.SHIP_WIDTH) {
+      x = Constants.FRAME_WIDTH-Constants.SHIP_WIDTH;
+    }
+
 //    update the frame (image)
     imageIndex++;
     if (imageIndex > frames.size()-1) {
@@ -43,5 +56,27 @@ public class Spaceship extends Sprite{
 //    pain on the canvas
     setImage(frames.get(imageIndex).getImage());
     graphics.drawImage(getImage(), x, y, null);
+  }
+
+  public void keyPressed(KeyEvent e) {
+    int key = e.getKeyCode();
+
+    if (key == KeyEvent.VK_LEFT) {
+      dx = -3;
+    }
+    if (key == KeyEvent.VK_RIGHT) {
+      dx = 3;
+    }
+  }
+
+  public void keyReleased(KeyEvent e) {
+    int key = e.getKeyCode();
+
+    if (key == KeyEvent.VK_LEFT) {
+      dx = 0;
+    }
+    if (key == KeyEvent.VK_RIGHT) {
+      dx = 0;
+    }
   }
 }

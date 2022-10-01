@@ -1,9 +1,11 @@
 package ui;
 
+import callbacks.GameEventListener;
 import constants.Constants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import objects.Spaceship;
@@ -21,6 +23,7 @@ public class GamePanel extends JPanel {
 
   private void initializeVariables() {
     spaceship = new Spaceship();
+    addKeyListener(new GameEventListener(this));
   }
 
   private void startAnimation() {
@@ -53,5 +56,13 @@ public class GamePanel extends JPanel {
 
   public void loop() {
     repaint();
+  }
+
+  public void keyPressed(KeyEvent e) {
+    spaceship.keyPressed(e);
+  }
+
+  public void keyReleased(KeyEvent e) {
+    spaceship.keyReleased(e);
   }
 }
