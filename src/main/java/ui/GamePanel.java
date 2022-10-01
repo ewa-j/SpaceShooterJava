@@ -125,7 +125,7 @@ public class GamePanel extends JPanel {
       meteors.add(new Meteor(randomX, randomY));
     }
 
-    //    detect collisions
+    //    detect laser-meteor collisions
     Meteor destroyedMeteor = null;
     Laser destroyedLaser = null;
 
@@ -141,5 +141,14 @@ public class GamePanel extends JPanel {
       }
     }
     lasers.remove(destroyedLaser);
+
+    //    detect spaceship-meteor collisions
+    destroyedMeteor = null;
+    for(Meteor meteor : meteors) {
+      if (collisionDetector.collisionMeteorSpaceship(spaceship, meteor)) {
+        destroyedMeteor = meteor;
+      }
+    }
+    meteors.remove(destroyedMeteor);
   }
 }
