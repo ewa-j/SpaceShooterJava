@@ -24,6 +24,7 @@ public class GamePanel extends JPanel {
   private List<Laser> lasers;
   private List<Meteor> meteors;
   private RandomGenerator randomGenerator;
+  private CollisionDetector collisionDetector;
 
   public GamePanel() {
     initializeVariables();
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel {
     lasers = new ArrayList<>();
     meteors = new ArrayList<>();
     randomGenerator = new RandomGenerator();
+    collisionDetector = new CollisionDetector();
   }
 
   private void startAnimation() {
@@ -115,7 +117,6 @@ public class GamePanel extends JPanel {
   }
 
   private void update() {
-//    detect collisions
 //    check whether game is over
 //    generate random meteors
     if (randomGenerator.isMeteorGenerated()) {
@@ -123,5 +124,22 @@ public class GamePanel extends JPanel {
       int randomY = 0 - Constants.METEOR_HEIGHT;
       meteors.add(new Meteor(randomX, randomY));
     }
+
+    //    detect collisions
+    Meteor destroyedMeteor = null;
+    Laser destroyedLaser = null;
+
+    for(Laser laser : lasers) {
+      if(!laser.isDead()) {
+        for (Meteor meteor : meteors) {
+          if (collisionDetector.collisionLaserMeteor(laser, meteor)) {
+            destroyedMeteor = meteor;
+            destroyedLaser = laser;
+          }
+        }
+        meteors.remove(destroyedMeteor);
+      }
+    }
+    lasers.remove(destroyedLaser);
   }
 }
