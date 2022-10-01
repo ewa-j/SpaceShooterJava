@@ -1,6 +1,8 @@
 package ui;
 
 import constants.Constants;
+import image.ImageFactory;
+import image.ImageType;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -19,7 +21,7 @@ public class GameMainFrame extends JFrame {
 //    define frame title
     setTitle(Constants.GAME_TITLE);
 //    icon/logo
-    setIconImage(new ImageIcon(Constants.LOGO_URL).getImage());
+    setIconImage(ImageFactory.createImage(ImageType.LOGO).getImage());
 //    default close operation
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 //    window will open in the center of the screen
