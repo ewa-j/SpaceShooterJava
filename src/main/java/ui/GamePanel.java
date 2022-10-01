@@ -1,7 +1,9 @@
 package ui;
 
 import constants.Constants;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -26,6 +28,18 @@ public class GamePanel extends JPanel {
     setFocusable(true);
   }
 
+  @Override
+  protected void paintComponent(Graphics graphics) {
+    super.paintComponent(graphics);
+    handleCanvas(graphics);
+  }
+
+  private void handleCanvas(Graphics graphics) {
+    graphics.setColor(Color.ORANGE);
+    graphics.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
+  }
+
   public void loop() {
+    repaint();
   }
 }
