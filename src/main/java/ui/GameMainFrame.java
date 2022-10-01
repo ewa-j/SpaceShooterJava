@@ -1,5 +1,6 @@
 package ui;
 
+import constants.Constants;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -16,9 +17,9 @@ public class GameMainFrame extends JFrame {
 //    set the frame size to fit the preferred components' size
     pack();
 //    define frame title
-    setTitle("Space Shooter");
+    setTitle(Constants.GAME_TITLE);
 //    icon/logo
-    setIconImage(new ImageIcon("src/main/resources/images/meteor.png").getImage());
+    setIconImage(new ImageIcon(Constants.LOGO_URL).getImage());
 //    default close operation
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 //    window will open in the center of the screen
