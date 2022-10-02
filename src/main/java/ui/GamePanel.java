@@ -24,7 +24,7 @@ public class GamePanel extends JPanel {
 
   private Timer timer;
   private transient Spaceship spaceship;
-  private transient Background background;
+  private transient Background backgroundSprite;
   private transient List<Laser> lasers;
   private transient List<Meteor> meteors;
   private transient RandomGenerator randomGenerator;
@@ -36,10 +36,39 @@ public class GamePanel extends JPanel {
     startAnimation();
   }
 
+
+  public void loop() {
+    update();
+    repaint();
+  }
+
+  public void keyPressed(KeyEvent keyEvent) {
+    spaceship.keyPressed(keyEvent);
+
+    int key = keyEvent.getKeyCode();
+
+    if (key == KeyEvent.VK_SPACE && GameVariables.IN_GAME) {
+      int x = spaceship.getX();
+      int y = spaceship.getY();
+
+      lasers.add(new Laser(x, y));
+    }
+  }
+
+  public void keyReleased(KeyEvent e) {
+    spaceship.keyReleased(e);
+  }
+
+  @Override
+  protected void paintComponent(Graphics graphics) {
+    super.paintComponent(graphics);
+    handleCanvas(graphics);
+  }
+
   private void initializeVariables() {
     spaceship = new Spaceship();
     addKeyListener(new GameEventListener(this));
-    background = new Background(0,0);
+    backgroundSprite = new Background(0,0);
     lasers = new ArrayList<>();
     meteors = new ArrayList<>();
     randomGenerator = new RandomGenerator();
@@ -56,12 +85,6 @@ public class GamePanel extends JPanel {
     setPreferredSize(new Dimension(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT));
 //    app focus will be on the panel
     setFocusable(true);
-  }
-
-  @Override
-  protected void paintComponent(Graphics graphics) {
-    super.paintComponent(graphics);
-    handleCanvas(graphics);
   }
 
   private void handleCanvas(Graphics graphics) {
@@ -91,12 +114,12 @@ public class GamePanel extends JPanel {
     Font font = new Font("Helvetica", Font.BOLD, 20);
     graphics.setColor(Color.WHITE);
     graphics.setFont(font);
-    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
+    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
     graphics.drawString("Lives: " + GameVariables.LIVES, 50, 50);
   }
 
   private void gameOver(Graphics graphics) {
-    background.update(graphics);
+    backgroundSprite.update(graphics);
 //    draw game over
     Font font = new Font("Helvetica", Font.BOLD, 50);
     FontMetrics fontMetrics = getFontMetrics(font);
@@ -107,11 +130,11 @@ public class GamePanel extends JPanel {
 //    draw score
     graphics.setColor(Color.YELLOW);
     graphics.setFont(font);
-    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth("Score: " + GameVariables.SCORE)/2, Constants.FRAME_HEIGHT-300);
+    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth(Constants.SCORE_STRING + GameVariables.SCORE)/2, Constants.FRAME_HEIGHT-300);
   }
 
   private void handleBackground(Graphics graphics) {
-    background.update(graphics);
+    backgroundSprite.update(graphics);
   }
 
   private void handleSpaceship(Graphics graphics) {
@@ -119,106 +142,97 @@ public class GamePanel extends JPanel {
   }
 
   private void handleLaser(Graphics graphics) {
-    for(Laser laser : lasers) {
+    lasers.forEach(laser -> {
       if(!laser.isDead()) {
         laser.update(graphics);
       }
-    }
+    });
   }
 
   private void handleMeteors(Graphics graphics) {
-    for(Meteor meteor : meteors) {
+    meteors.forEach(meteor -> {
       if(!meteor.isDead()) {
         meteor.update(graphics);
       }
-    }
-  }
-
-  public void loop() {
-    update();
-    repaint();
-  }
-
-  public void keyPressed(KeyEvent e) {
-    spaceship.keyPressed(e);
-
-//    generate laser beam when space key is hit
-    int key = e.getKeyCode();
-
-    if (key == KeyEvent.VK_SPACE) {
-      if (GameVariables.IN_GAME) {
-        int x = spaceship.getX();
-        int y = spaceship.getY();
-
-        lasers.add(new Laser(x, y));
-      }
-    }
-  }
-
-  public void keyReleased(KeyEvent e) {
-    spaceship.keyReleased(e);
+    });
   }
 
   private void update() {
-//    check whether game is over
-    if (spaceship.isDead()) {
-      GameVariables.IN_GAME = false;
-      return;
-    }
+    isGameOver();
+    generateRandomMeteors();
+    checkWhetherMeteorReachedTheEndOfCanvas();
+    removeDeadLaserBeams();
+    detectLaserMeteorCollision();
+    detectSpaceshipMeteorCollision();
+  }
 
-//    generate random meteors
-    if (randomGenerator.isMeteorGenerated()) {
-      int randomX = randomGenerator.generateRandomX();
-      int randomY = -Constants.METEOR_HEIGHT;
-      meteors.add(new Meteor(randomX, randomY));
-    }
+  private void detectSpaceshipMeteorCollision() {
+    final Meteor[] destroyedMeteor = new Meteor[1];
+    destroyedMeteor[0] = null;
 
-//    check whether meteor reached the end of the canvas - GAME OVER
-    for (Meteor meteor :meteors) {
-      if (meteor.isDead()) {
-        spaceship.die();
-      }
-    }
-
-//    check whether to remove dead laser beams
-    List<Laser> destroyedLasers = new ArrayList<>();
-    for (Laser laser : lasers) {
-      if (laser.isDead()) {
-        destroyedLasers.add(laser);
-      }
-    }
-    lasers.removeAll(destroyedLasers);
-
-    //    detect laser-meteor collisions
-    Meteor destroyedMeteor = null;
-    Laser destroyedLaser = null;
-
-    for(Laser laser : lasers) {
-      if(!laser.isDead()) {
-        for (Meteor meteor : meteors) {
-          if (collisionDetector.collisionLaserMeteor(laser, meteor)) {
-            destroyedMeteor = meteor;
-            destroyedLaser = laser;
-            GameVariables.SCORE += 20;
-          }
-        }
-        meteors.remove(destroyedMeteor);
-      }
-    }
-    lasers.remove(destroyedLaser);
-
-    //    detect spaceship-meteor collisions
-    destroyedMeteor = null;
-    for(Meteor meteor : meteors) {
+    meteors.forEach(meteor -> {
       if (collisionDetector.collisionMeteorSpaceship(spaceship, meteor)) {
-        destroyedMeteor = meteor;
+        destroyedMeteor[0] = meteor;
         GameVariables.LIVES--;
 
         if(GameVariables.LIVES < 0 ) {
           spaceship.die();
         }
       }
+    });
+    meteors.remove(destroyedMeteor[0]);
+  }
+
+  private void detectLaserMeteorCollision() {
+    final Meteor[] destroyedMeteor = {null};
+    final Laser[] destroyedLaser = {null};
+
+    lasers.forEach(laser -> {
+      if(!laser.isDead()) {
+        for (Meteor meteor : meteors) {
+          if (collisionDetector.collisionLaserMeteor(laser, meteor)) {
+            destroyedMeteor[0] = meteor;
+            destroyedLaser[0] = laser;
+            GameVariables.SCORE += 20;
+          }
+        }
+        meteors.remove(destroyedMeteor[0]);
+      }
+    });
+    lasers.remove(destroyedLaser[0]);
+  }
+
+  private void removeDeadLaserBeams() {
+    List<Laser> destroyedLasers = new ArrayList<>();
+
+    lasers.forEach(laser -> {
+      if (laser.isDead()) {
+        destroyedLasers.add(laser);
+      }
+    });
+    lasers.removeAll(destroyedLasers);
+  }
+
+  private void checkWhetherMeteorReachedTheEndOfCanvas() {
+
+    meteors.forEach(meteor -> {
+      if (meteor.isDead()) {
+        spaceship.die();
+      }
+    });
+  }
+
+  private void generateRandomMeteors() {
+    if (randomGenerator.isMeteorGenerated()) {
+      int randomX = randomGenerator.generateRandomX();
+      int randomY = -Constants.METEOR_HEIGHT;
+      meteors.add(new Meteor(randomX, randomY));
     }
-    meteors.remove(destroyedMeteor);
+  }
+
+  private void isGameOver() {
+    if (spaceship.isDead()) {
+      GameVariables.IN_GAME = false;
+    }
   }
 }

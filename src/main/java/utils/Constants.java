@@ -14,6 +14,7 @@ public class Constants {
 
   public static final String GAME_TITLE = "Space Shooter";
   public static final String GAME_OVER = "GAME OVER";
+  public static final String SCORE_STRING = "Score: ";
 
   public static final String LOGO_URL = "src/main/resources/images/meteor.png";
   public static final String BACKGROUND_URL = "src/main/resources/images/background.jpg";
