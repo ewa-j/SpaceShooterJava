@@ -5,6 +5,8 @@ import constants.Constants;
 import constants.GameVariables;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -69,6 +71,7 @@ public class GamePanel extends JPanel {
       handleSpaceship(graphics);
       handleLaser(graphics);
       handleMeteors(graphics);
+      handleScoreAndShields(graphics);
     } else {
       if (timer.isRunning()) {
         timer.stop();
@@ -80,8 +83,31 @@ public class GamePanel extends JPanel {
     Toolkit.getDefaultToolkit().sync();
   }
 
-  private void gameOver(Graphics graphics) {
+  private void handleScoreAndShields(Graphics graphics) {
 
+    if(!GameVariables.IN_GAME) {
+      return;
+    }
+    Font font = new Font("Helvetica", Font.BOLD, 20);
+    graphics.setColor(Color.WHITE);
+    graphics.setFont(font);
+    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH-100, 50);
+    graphics.drawString("Shields: " + GameVariables.SHIELDS, 50, 50);
+  }
+
+  private void gameOver(Graphics graphics) {
+    background.update(graphics);
+//    draw game over
+    Font font = new Font("Helvetica", Font.BOLD, 50);
+    FontMetrics fontMetrics = getFontMetrics(font);
+    graphics.setColor(Color.WHITE);
+    graphics.setFont(font);
+    graphics.drawString(Constants.GAME_OVER, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth(Constants.GAME_OVER)/2, Constants.FRAME_HEIGHT/2-100);
+
+//    draw score
+    graphics.setColor(Color.YELLOW);
+    graphics.setFont(font);
+    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth("Score: " + GameVariables.SCORE)/2, Constants.FRAME_HEIGHT-300);
   }
 
   private void handleBackground(Graphics graphics) {
@@ -120,10 +146,12 @@ public class GamePanel extends JPanel {
     int key = e.getKeyCode();
 
     if (key == KeyEvent.VK_SPACE) {
-      int x = spaceship.getX();
-      int y = spaceship.getY();
+      if (GameVariables.IN_GAME) {
+        int x = spaceship.getX();
+        int y = spaceship.getY();
 
-      lasers.add(new Laser(x, y));
+        lasers.add(new Laser(x, y));
+      }
     }
   }
 
@@ -141,7 +169,7 @@ public class GamePanel extends JPanel {
 //    generate random meteors
     if (randomGenerator.isMeteorGenerated()) {
       int randomX = randomGenerator.generateRandomX();
-      int randomY = 0 - Constants.METEOR_HEIGHT;
+      int randomY = -Constants.METEOR_HEIGHT;
       meteors.add(new Meteor(randomX, randomY));
     }
 
@@ -171,6 +199,7 @@ public class GamePanel extends JPanel {
           if (collisionDetector.collisionLaserMeteor(laser, meteor)) {
             destroyedMeteor = meteor;
             destroyedLaser = laser;
+            GameVariables.SCORE += 20;
           }
         }
         meteors.remove(destroyedMeteor);

@@ -11,6 +11,7 @@ public class Constants {
   public static final int SHIP_HEIGHT = 104;
 
   public static final String GAME_TITLE = "Space Shooter";
+  public static final String GAME_OVER = "GAME OVER";
 
   public static final String LOGO_URL = "src/main/resources/images/meteor.png";
   public static final String BACKGROUND_URL = "src/main/resources/images/background.jpg";
