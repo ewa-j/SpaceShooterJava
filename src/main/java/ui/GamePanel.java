@@ -188,8 +188,10 @@ public class GamePanel extends JPanel {
     generateRandomMedicalKit();
     checkWhetherMeteorReachedTheEndOfCanvas();
     removeDeadLaserBeams();
+    removeDeadMedicalKit();
     detectLaserMeteorCollision();
     detectSpaceshipMeteorCollision();
+    detectSpaceshipMedicalKitCollision();
   }
 
   private void detectSpaceshipMeteorCollision() {
@@ -228,6 +230,19 @@ public class GamePanel extends JPanel {
     lasers.remove(destroyedLaser[0]);
   }
 
+  private void detectSpaceshipMedicalKitCollision() {
+    final MedicalKit[] destroyedMedicalKit = new MedicalKit[1];
+    destroyedMedicalKit[0] = null;
+
+    medicalKits.forEach(medicalKit -> {
+      if (collisionDetector.collisionMedicalKitSpaceship(spaceship, medicalKit)) {
+        destroyedMedicalKit[0] = medicalKit;
+        GameVariables.LIVES++;
+      }
+    });
+    medicalKits.remove(destroyedMedicalKit[0]);
+  }
+
   private void removeDeadLaserBeams() {
     List<Laser> destroyedLasers = new ArrayList<>();
 
@@ -237,6 +252,17 @@ public class GamePanel extends JPanel {
       }
     });
     lasers.removeAll(destroyedLasers);
+  }
+
+  private void removeDeadMedicalKit() {
+    List<MedicalKit> destroyedMedicalKits = new ArrayList<>();
+
+    medicalKits.forEach(medicalKit -> {
+      if (medicalKit.isDead()) {
+        destroyedMedicalKits.add(medicalKit);
+      }
+    });
+    medicalKits.removeAll(destroyedMedicalKits);
   }
 
   private void checkWhetherMeteorReachedTheEndOfCanvas() {
@@ -257,7 +283,7 @@ public class GamePanel extends JPanel {
   }
 
   private void generateRandomMedicalKit() {
-    if (GameVariables.LIVES <= 3 && randomGenerator.isMedicalKitGenerated() && medicalKits.isEmpty()) {
+    if (GameVariables.LIVES <= 2 && randomGenerator.isMedicalKitGenerated() && medicalKits.isEmpty()) {
       int randomX = randomGenerator.generateRandomX();
       int randomY = -Constants.MEDICAL_KIT_HEIGHT;
       medicalKits.add(new MedicalKit(randomX, randomY));

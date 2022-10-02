@@ -33,8 +33,8 @@ public class Constants {
   public static final int METEOR_WIDTH = 48;
   public static final int METEOR_HEIGHT = 82;
 
-  public static final double MEDICAL_KIT_PROBABILITY = 300.01;
+  public static final double MEDICAL_KIT_PROBABILITY = 0.001;
   public static final int MEDICAL_KIT_WIDTH = 35;
   public static final int MEDICAL_KIT_HEIGHT = 35;
-  public static int MEDICAL_KIT_SPEED = 10;
+  public static final int MEDICAL_KIT_SPEED = 8;
 }

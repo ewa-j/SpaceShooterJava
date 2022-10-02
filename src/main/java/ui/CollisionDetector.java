@@ -30,4 +30,17 @@ public class CollisionDetector {
         spaceshipY < meteorY + Constants.METEOR_HEIGHT &&
         meteorY < spaceshipY + Constants.SHIP_HEIGHT;
   }
+
+  public boolean collisionMedicalKitSpaceship(Sprite spaceship, Sprite medicalKit) {
+
+    int spaceshipX = spaceship.getX();
+    int spaceshipY = spaceship.getY();
+    int medicalKitX = medicalKit.getX();
+    int medicalKitY = medicalKit.getY();
+
+    return spaceshipX < medicalKitX + Constants.MEDICAL_KIT_WIDTH &&
+        medicalKitX < spaceshipX + Constants.SHIP_WIDTH &&
+        spaceshipY < medicalKitY + Constants.MEDICAL_KIT_HEIGHT &&
+        medicalKitY < spaceshipY + Constants.SHIP_HEIGHT;
+  }
 }
