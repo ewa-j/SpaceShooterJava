@@ -170,6 +170,8 @@ public class GamePanel extends JPanel {
 
   private void update() {
     isGameOver();
+    updateMeteorSpeed();
+    updateMeteorProbability();
     generateRandomMeteors();
     checkWhetherMeteorReachedTheEndOfCanvas();
     removeDeadLaserBeams();
@@ -244,6 +246,44 @@ public class GamePanel extends JPanel {
   private void isGameOver() {
     if (spaceship.isDead()) {
       GameVariables.IN_GAME = false;
+    }
+  }
+
+  private void updateMeteorSpeed() {
+    if (GameVariables.SCORE >= 200) {
+      Constants.METEOR_SPEED = 3;
+    } else if (GameVariables.SCORE >= 400) {
+      Constants.METEOR_SPEED = 5;
+    } else if (GameVariables.SCORE >= 700) {
+    Constants.METEOR_SPEED = 6;
+    } else if (GameVariables.SCORE >= 1300) {
+      Constants.METEOR_SPEED = 7 ;
+    } else if (GameVariables.SCORE >= 2000) {
+      Constants.METEOR_SPEED = 9;
+    } else if (GameVariables.SCORE >= 3500) {
+      Constants.METEOR_SPEED = 11;
+    }
+  }
+
+  private void updateMeteorProbability() {
+    if (GameVariables.SCORE >= 300) {
+      Constants.METEOR_PROBABILITY = 0.025;
+    } else if (GameVariables.SCORE >= 500) {
+      Constants.METEOR_PROBABILITY = 0.035;
+    } else if (GameVariables.SCORE >= 900) {
+      Constants.METEOR_PROBABILITY = 0.040;
+    } else if (GameVariables.SCORE >= 1100) {
+      Constants.METEOR_PROBABILITY = 0.047;
+    } else if (GameVariables.SCORE >= 1400) {
+      Constants.METEOR_PROBABILITY = 0.053;
+    } else if (GameVariables.SCORE >= 1600) {
+      Constants.METEOR_PROBABILITY = 0.070;
+    } else if (GameVariables.SCORE >= 2300) {
+      Constants.METEOR_PROBABILITY = 0.090;
+    } else if (GameVariables.SCORE >= 2600) {
+      Constants.METEOR_PROBABILITY = 0.150;
+    } else if (GameVariables.SCORE >= 3000) {
+      Constants.METEOR_PROBABILITY = 0.350;
     }
   }
 }
