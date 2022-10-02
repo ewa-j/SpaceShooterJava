@@ -36,7 +36,6 @@ public class GamePanel extends JPanel {
     startAnimation();
   }
 
-
   public void loop() {
     update();
     repaint();
@@ -111,11 +110,23 @@ public class GamePanel extends JPanel {
     if(!GameVariables.IN_GAME) {
       return;
     }
+    setFontForScoreAndLives(graphics);
+    drawScoreOnCanvas(graphics);
+    drawLivesOnCanvas(graphics);
+  }
+
+  private void drawLivesOnCanvas(Graphics graphics) {
+    graphics.drawString(Constants.LIVES_STRING + GameVariables.LIVES, 50, 50);
+  }
+
+  private void drawScoreOnCanvas(Graphics graphics) {
+    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
+  }
+
+  private void setFontForScoreAndLives(Graphics graphics) {
     Font font = new Font("Helvetica", Font.BOLD, 20);
     graphics.setColor(Color.WHITE);
     graphics.setFont(font);
-    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
-    graphics.drawString("Lives: " + GameVariables.LIVES, 50, 50);
   }
 
   private void gameOver(Graphics graphics) {
