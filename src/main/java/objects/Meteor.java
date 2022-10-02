@@ -40,11 +40,11 @@ public class Meteor extends Sprite{
 //    if meteor outside canvas, remove it and game over
     if (y >= Constants.FRAME_HEIGHT) {
       die();
+    }
 //      update image index
-      imageIndex++;
-      if(imageIndex > frames.size()-1) {
-        imageIndex = 0;
-      }
+    imageIndex++;
+    if(imageIndex > frames.size()-1) {
+      imageIndex = 0;
     }
   }
 

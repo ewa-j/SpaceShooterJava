@@ -91,7 +91,7 @@ public class GamePanel extends JPanel {
     Font font = new Font("Helvetica", Font.BOLD, 20);
     graphics.setColor(Color.WHITE);
     graphics.setFont(font);
-    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH-100, 50);
+    graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
     graphics.drawString("Shields: " + GameVariables.SHIELDS, 50, 50);
   }
 
