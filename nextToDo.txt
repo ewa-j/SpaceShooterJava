@@ -1,5 +1,3 @@
-- collision detection ship-medical kit
-- increase lives
 
 - new laser kit
 - collision detection ship-medical kit

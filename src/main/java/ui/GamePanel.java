@@ -199,7 +199,7 @@ public class GamePanel extends JPanel {
     destroyedMeteor[0] = null;
 
     meteors.forEach(meteor -> {
-      if (collisionDetector.collisionMeteorSpaceship(spaceship, meteor)) {
+      if (collisionDetector.collisionBetweenSprites(spaceship, meteor)) {
         destroyedMeteor[0] = meteor;
         GameVariables.LIVES--;
 
@@ -218,7 +218,7 @@ public class GamePanel extends JPanel {
     lasers.forEach(laser -> {
       if(!laser.isDead()) {
         for (Meteor meteor : meteors) {
-          if (collisionDetector.collisionLaserMeteor(laser, meteor)) {
+          if (collisionDetector.collisionBetweenSprites(laser, meteor)) {
             destroyedMeteor[0] = meteor;
             destroyedLaser[0] = laser;
             GameVariables.SCORE += 20;
@@ -235,7 +235,7 @@ public class GamePanel extends JPanel {
     destroyedMedicalKit[0] = null;
 
     medicalKits.forEach(medicalKit -> {
-      if (collisionDetector.collisionMedicalKitSpaceship(spaceship, medicalKit)) {
+      if (collisionDetector.collisionBetweenSprites(spaceship, medicalKit)) {
         destroyedMedicalKit[0] = medicalKit;
         GameVariables.LIVES++;
       }
