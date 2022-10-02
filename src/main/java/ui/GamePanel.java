@@ -2,9 +2,11 @@ package ui;
 
 import callbacks.GameEventListener;
 import constants.Constants;
+import constants.GameVariables;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +63,25 @@ public class GamePanel extends JPanel {
   }
 
   private void handleCanvas(Graphics graphics) {
-    graphics.setColor(Color.ORANGE);
-    graphics.fillRect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-    handleBackground(graphics);
-    handleSpaceship(graphics);
-    handleLaser(graphics);
-    handleMeteors(graphics);
+
+    if (GameVariables.IN_GAME) {
+      handleBackground(graphics);
+      handleSpaceship(graphics);
+      handleLaser(graphics);
+      handleMeteors(graphics);
+    } else {
+      if (timer.isRunning()) {
+        timer.stop();
+      }
+      gameOver(graphics);
+    }
+
+//    we want to synchronize the canvas
+    Toolkit.getDefaultToolkit().sync();
+  }
+
+  private void gameOver(Graphics graphics) {
+
   }
 
   private void handleBackground(Graphics graphics) {
@@ -118,12 +133,33 @@ public class GamePanel extends JPanel {
 
   private void update() {
 //    check whether game is over
+    if (spaceship.isDead()) {
+      GameVariables.IN_GAME = false;
+      return;
+    }
+
 //    generate random meteors
     if (randomGenerator.isMeteorGenerated()) {
       int randomX = randomGenerator.generateRandomX();
       int randomY = 0 - Constants.METEOR_HEIGHT;
       meteors.add(new Meteor(randomX, randomY));
     }
+
+//    check whether meteor reached the end of the canvas - GAME OVER
+    for (Meteor meteor :meteors) {
+      if (meteor.isDead()) {
+        spaceship.die();
+      }
+    }
+
+//    check whether to remove dead laser beams
+    List<Laser> destroyedLasers = new ArrayList<>();
+    for (Laser laser : lasers) {
+      if (laser.isDead()) {
+        destroyedLasers.add(laser);
+      }
+    }
+    lasers.removeAll(destroyedLasers);
 
     //    detect laser-meteor collisions
     Meteor destroyedMeteor = null;
@@ -147,6 +183,11 @@ public class GamePanel extends JPanel {
     for(Meteor meteor : meteors) {
       if (collisionDetector.collisionMeteorSpaceship(spaceship, meteor)) {
         destroyedMeteor = meteor;
+        GameVariables.SHIELDS--;
+
+        if(GameVariables.SHIELDS < 0 ) {
+          spaceship.die();
+        }
       }
     }
     meteors.remove(destroyedMeteor);
