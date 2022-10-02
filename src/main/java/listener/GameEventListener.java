@@ -1,4 +1,4 @@
-package callbacks;
+package listener;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -6,7 +6,7 @@ import ui.GamePanel;
 
 public class GameEventListener extends KeyAdapter {
 
-  private GamePanel gamePanel;
+  private final GamePanel gamePanel;
 
   public GameEventListener(GamePanel gamePanel) {
     this.gamePanel = gamePanel;

@@ -1,8 +1,10 @@
-package constants;
+package utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Constants {
-
-  private Constants() {}
 
   public static final int FRAME_WIDTH = 420;
   public static final int FRAME_HEIGHT = 746;

@@ -1,9 +1,8 @@
 package ui;
 
-import constants.Constants;
+import utils.Constants;
 import image.ImageFactory;
 import image.ImageType;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class GameMainFrame extends JFrame {
@@ -14,7 +13,6 @@ public class GameMainFrame extends JFrame {
 
   private void initialize() {
 
-//    add panels to the main frame
     add(new GamePanel());
 //    set the frame size to fit the preferred components' size
     pack();

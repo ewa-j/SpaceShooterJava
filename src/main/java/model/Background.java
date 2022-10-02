@@ -1,6 +1,6 @@
-package objects;
+package model;
 
-import constants.Constants;
+import utils.Constants;
 import image.ImageFactory;
 import image.ImageType;
 import java.awt.Graphics;

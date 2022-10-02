@@ -1,6 +1,6 @@
 package random;
 
-import constants.Constants;
+import utils.Constants;
 import java.util.Random;
 
 public class RandomGenerator {

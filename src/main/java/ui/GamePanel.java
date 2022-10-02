@@ -1,8 +1,8 @@
 package ui;
 
-import callbacks.GameEventListener;
-import constants.Constants;
-import constants.GameVariables;
+import listener.GameEventListener;
+import utils.Constants;
+import utils.GameVariables;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,21 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import objects.Background;
-import objects.Laser;
-import objects.Meteor;
-import objects.Spaceship;
+import model.Background;
+import model.Laser;
+import model.Meteor;
+import model.Spaceship;
 import random.RandomGenerator;
 
 public class GamePanel extends JPanel {
 
   private Timer timer;
-  private Spaceship spaceship;
-  private Background background;
-  private List<Laser> lasers;
-  private List<Meteor> meteors;
-  private RandomGenerator randomGenerator;
-  private CollisionDetector collisionDetector;
+  private transient Spaceship spaceship;
+  private transient Background background;
+  private transient List<Laser> lasers;
+  private transient List<Meteor> meteors;
+  private transient RandomGenerator randomGenerator;
+  private transient CollisionDetector collisionDetector;
 
   public GamePanel() {
     initializeVariables();
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
       handleSpaceship(graphics);
       handleLaser(graphics);
       handleMeteors(graphics);
-      handleScoreAndShields(graphics);
+      handleScoreAndLives(graphics);
     } else {
       if (timer.isRunning()) {
         timer.stop();
@@ -83,7 +83,7 @@ public class GamePanel extends JPanel {
     Toolkit.getDefaultToolkit().sync();
   }
 
-  private void handleScoreAndShields(Graphics graphics) {
+  private void handleScoreAndLives(Graphics graphics) {
 
     if(!GameVariables.IN_GAME) {
       return;
@@ -92,7 +92,7 @@ public class GamePanel extends JPanel {
     graphics.setColor(Color.WHITE);
     graphics.setFont(font);
     graphics.drawString("Score: " + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
-    graphics.drawString("Shields: " + GameVariables.SHIELDS, 50, 50);
+    graphics.drawString("Lives: " + GameVariables.LIVES, 50, 50);
   }
 
   private void gameOver(Graphics graphics) {
@@ -212,9 +212,9 @@ public class GamePanel extends JPanel {
     for(Meteor meteor : meteors) {
       if (collisionDetector.collisionMeteorSpaceship(spaceship, meteor)) {
         destroyedMeteor = meteor;
-        GameVariables.SHIELDS--;
+        GameVariables.LIVES--;
 
-        if(GameVariables.SHIELDS < 0 ) {
+        if(GameVariables.LIVES < 0 ) {
           spaceship.die();
         }
       }

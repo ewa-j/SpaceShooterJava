@@ -1,6 +1,6 @@
-package objects;
+package model;
 
-import constants.Constants;
+import utils.Constants;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;

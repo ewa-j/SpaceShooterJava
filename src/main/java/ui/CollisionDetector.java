@@ -1,7 +1,7 @@
 package ui;
 
-import constants.Constants;
-import objects.Sprite;
+import utils.Constants;
+import model.Sprite;
 
 public class CollisionDetector {
 
