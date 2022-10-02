@@ -1,6 +1,7 @@
 package ui;
 
 import listener.GameEventListener;
+import model.MedicalKit;
 import utils.Constants;
 import utils.GameVariables;
 import java.awt.Color;
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel {
   private transient Background backgroundSprite;
   private transient List<Laser> lasers;
   private transient List<Meteor> meteors;
+  private transient List<MedicalKit> medicalKits;
   private transient RandomGenerator randomGenerator;
   private transient CollisionDetector collisionDetector;
 
@@ -70,6 +72,7 @@ public class GamePanel extends JPanel {
     backgroundSprite = new Background(0,0);
     lasers = new ArrayList<>();
     meteors = new ArrayList<>();
+    medicalKits = new ArrayList<>();
     randomGenerator = new RandomGenerator();
     collisionDetector = new CollisionDetector();
   }
@@ -93,6 +96,7 @@ public class GamePanel extends JPanel {
       handleSpaceship(graphics);
       handleLaser(graphics);
       handleMeteors(graphics);
+      handleMedicalKit(graphics);
       handleScoreAndLives(graphics);
     } else {
       if (timer.isRunning()) {
@@ -160,6 +164,14 @@ public class GamePanel extends JPanel {
     });
   }
 
+  private void handleMedicalKit(Graphics graphics) {
+    medicalKits.forEach(medicalKit -> {
+      if(!medicalKit.isDead()) {
+        medicalKit.update(graphics);
+      }
+    });
+  }
+
   private void handleMeteors(Graphics graphics) {
     meteors.forEach(meteor -> {
       if(!meteor.isDead()) {
@@ -173,6 +185,7 @@ public class GamePanel extends JPanel {
     updateMeteorSpeed();
     updateMeteorProbability();
     generateRandomMeteors();
+    generateRandomMedicalKit();
     checkWhetherMeteorReachedTheEndOfCanvas();
     removeDeadLaserBeams();
     detectLaserMeteorCollision();
@@ -188,7 +201,7 @@ public class GamePanel extends JPanel {
         destroyedMeteor[0] = meteor;
         GameVariables.LIVES--;
 
-        if(GameVariables.LIVES < 0 ) {
+        if(GameVariables.LIVES < 1 ) {
           spaceship.die();
         }
       }
@@ -240,6 +253,14 @@ public class GamePanel extends JPanel {
       int randomX = randomGenerator.generateRandomX();
       int randomY = -Constants.METEOR_HEIGHT;
       meteors.add(new Meteor(randomX, randomY));
+    }
+  }
+
+  private void generateRandomMedicalKit() {
+    if (GameVariables.LIVES <= 3 && randomGenerator.isMedicalKitGenerated() && medicalKits.isEmpty()) {
+      int randomX = randomGenerator.generateRandomX();
+      int randomY = -Constants.MEDICAL_KIT_HEIGHT;
+      medicalKits.add(new MedicalKit(randomX, randomY));
     }
   }
 

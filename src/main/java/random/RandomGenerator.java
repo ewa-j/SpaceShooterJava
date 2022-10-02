@@ -15,6 +15,10 @@ public class RandomGenerator {
     return random.nextDouble() < Constants.METEOR_PROBABILITY;
   }
 
+  public boolean isMedicalKitGenerated() {
+    return random.nextDouble() < Constants.MEDICAL_KIT_PROBABILITY;
+  }
+
   public int generateRandomX() {
     return random.nextInt(Constants.FRAME_WIDTH-2 * Constants.SHIP_WIDTH) + Constants.SHIP_WIDTH;
   }

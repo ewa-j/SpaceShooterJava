@@ -20,6 +20,7 @@ public class Constants {
   public static final String LOGO_URL = "src/main/resources/images/meteor.png";
   public static final String BACKGROUND_URL = "src/main/resources/images/background.jpg";
   public static final String LASER_URL = "src/main/resources/images/laser_shot.png";
+  public static final String MEDICAL_KIT_URL = "src/main/resources/images/medical_kit.png";
 
   public static final int GAME_SPEED = 15; //approximately 67 FPS
 
@@ -31,4 +32,9 @@ public class Constants {
   public static double METEOR_PROBABILITY = 0.01;
   public static final int METEOR_WIDTH = 48;
   public static final int METEOR_HEIGHT = 82;
+
+  public static final double MEDICAL_KIT_PROBABILITY = 300.01;
+  public static final int MEDICAL_KIT_WIDTH = 35;
+  public static final int MEDICAL_KIT_HEIGHT = 35;
+  public static int MEDICAL_KIT_SPEED = 10;
 }
