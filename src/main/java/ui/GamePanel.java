@@ -296,41 +296,41 @@ public class GamePanel extends JPanel {
     }
   }
 
-  private void updateMeteorSpeed() {
+  private static void updateMeteorSpeed() {
     if (GameVariables.SCORE >= 200) {
-      Constants.METEOR_SPEED = 3;
+      GameVariables.meteorSpeed = 3;
     } else if (GameVariables.SCORE >= 400) {
-      Constants.METEOR_SPEED = 5;
+      GameVariables.meteorSpeed = 5;
     } else if (GameVariables.SCORE >= 700) {
-    Constants.METEOR_SPEED = 6;
+      GameVariables.meteorSpeed = 6;
     } else if (GameVariables.SCORE >= 1300) {
-      Constants.METEOR_SPEED = 7 ;
+      GameVariables.meteorSpeed = 7 ;
     } else if (GameVariables.SCORE >= 2000) {
-      Constants.METEOR_SPEED = 9;
+      GameVariables.meteorSpeed = 9;
     } else if (GameVariables.SCORE >= 3500) {
-      Constants.METEOR_SPEED = 11;
+      GameVariables.meteorSpeed = 11;
     }
   }
 
-  private void updateMeteorProbability() {
+  private static void updateMeteorProbability() {
     if (GameVariables.SCORE >= 300) {
-      Constants.METEOR_PROBABILITY = 0.025;
+      GameVariables.meteorProbability = 0.015;
     } else if (GameVariables.SCORE >= 500) {
-      Constants.METEOR_PROBABILITY = 0.035;
+      GameVariables.meteorProbability = 0.020;
     } else if (GameVariables.SCORE >= 900) {
-      Constants.METEOR_PROBABILITY = 0.040;
+      GameVariables.meteorProbability = 0.025;
     } else if (GameVariables.SCORE >= 1100) {
-      Constants.METEOR_PROBABILITY = 0.047;
+      GameVariables.meteorProbability = 0.040;
     } else if (GameVariables.SCORE >= 1400) {
-      Constants.METEOR_PROBABILITY = 0.053;
+      GameVariables.meteorProbability = 0.043;
     } else if (GameVariables.SCORE >= 1600) {
-      Constants.METEOR_PROBABILITY = 0.070;
+      GameVariables.meteorProbability = 0.060;
     } else if (GameVariables.SCORE >= 2300) {
-      Constants.METEOR_PROBABILITY = 0.090;
+      GameVariables.meteorProbability = 0.085;
     } else if (GameVariables.SCORE >= 2600) {
-      Constants.METEOR_PROBABILITY = 0.150;
+      GameVariables.meteorProbability = 0.090;
     } else if (GameVariables.SCORE >= 3000) {
-      Constants.METEOR_PROBABILITY = 0.350;
+      GameVariables.meteorProbability = 0.100;
     }
   }
 }

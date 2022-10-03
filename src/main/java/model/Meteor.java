@@ -1,10 +1,12 @@
 package model;
 
+import ui.GameMainFrame;
 import utils.Constants;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import utils.GameVariables;
 
 public class Meteor extends Sprite{
 
@@ -36,7 +38,7 @@ public class Meteor extends Sprite{
   protected void update() {
 
 //    move meteor from top to bottom
-    y += Constants.METEOR_SPEED;
+    y += GameVariables.meteorSpeed;
 //    if meteor outside canvas, remove it and game over
     if (y >= Constants.FRAME_HEIGHT) {
       die();

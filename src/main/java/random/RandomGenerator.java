@@ -2,6 +2,7 @@ package random;
 
 import utils.Constants;
 import java.util.Random;
+import utils.GameVariables;
 
 public class RandomGenerator {
 
@@ -12,7 +13,7 @@ public class RandomGenerator {
   }
 
   public boolean isMeteorGenerated() {
-    return random.nextDouble() < Constants.METEOR_PROBABILITY;
+    return random.nextDouble() < GameVariables.meteorProbability;
   }
 
   public boolean isMedicalKitGenerated() {

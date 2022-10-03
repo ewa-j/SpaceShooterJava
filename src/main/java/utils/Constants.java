@@ -28,8 +28,6 @@ public class Constants {
   public static final int LASER_WIDTH = 12;
   public static final int LASER_HEIGHT = 62;
 
-  public static int METEOR_SPEED = 2;
-  public static double METEOR_PROBABILITY = 0.01;
   public static final int METEOR_WIDTH = 48;
   public static final int METEOR_HEIGHT = 82;
 
