@@ -38,7 +38,7 @@ public class Constants {
   public static final int MEDICAL_KIT_HEIGHT = 35;
   public static final int MEDICAL_KIT_SPEED = 8;
 
-  public static final double CRATE_PROBABILITY = 0.0001;
+  public static final double CRATE_PROBABILITY = 0.001;
   public static final int CRATE_WIDTH = 40;
   public static final int CRATE_HEIGHT = 40;
   public static final int CRATE_SPEED = 7;

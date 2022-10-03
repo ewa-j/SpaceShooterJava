@@ -369,23 +369,23 @@ public class GamePanel extends JPanel {
 
   private static void updateMeteorProbability() {
     if (GameVariables.score >= 300) {
-      GameVariables.meteorProbability = 0.015;
+      GameVariables.meteorProbability = 0.05;
     } else if (GameVariables.score >= 500) {
-      GameVariables.meteorProbability = 0.020;
+      GameVariables.meteorProbability = 0.06;
     } else if (GameVariables.score >= 900) {
-      GameVariables.meteorProbability = 0.025;
+      GameVariables.meteorProbability = 0.075;
     } else if (GameVariables.score >= 1100) {
-      GameVariables.meteorProbability = 0.040;
+      GameVariables.meteorProbability = 0.080;
     } else if (GameVariables.score >= 1400) {
-      GameVariables.meteorProbability = 0.043;
-    } else if (GameVariables.score >= 1600) {
-      GameVariables.meteorProbability = 0.060;
-    } else if (GameVariables.score >= 2300) {
-      GameVariables.meteorProbability = 0.085;
-    } else if (GameVariables.score >= 2600) {
-      GameVariables.meteorProbability = 0.090;
-    } else if (GameVariables.score >= 3000) {
       GameVariables.meteorProbability = 0.100;
+    } else if (GameVariables.score >= 1600) {
+      GameVariables.meteorProbability = 0.130;
+    } else if (GameVariables.score >= 2300) {
+      GameVariables.meteorProbability = 0.170;
+    } else if (GameVariables.score >= 2600) {
+      GameVariables.meteorProbability = 0.200;
+    } else if (GameVariables.score >= 3000) {
+      GameVariables.meteorProbability = 0.300;
     }
   }
 }
