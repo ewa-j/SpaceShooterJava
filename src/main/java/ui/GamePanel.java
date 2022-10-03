@@ -1,6 +1,8 @@
 package ui;
 
+import javax.swing.ImageIcon;
 import listener.GameEventListener;
+import model.Crate;
 import model.MedicalKit;
 import utils.Constants;
 import utils.GameVariables;
@@ -29,6 +31,7 @@ public class GamePanel extends JPanel {
   private transient List<Laser> lasers;
   private transient List<Meteor> meteors;
   private transient List<MedicalKit> medicalKits;
+  private transient List<Crate> crates;
   private transient RandomGenerator randomGenerator;
   private transient CollisionDetector collisionDetector;
 
@@ -73,6 +76,7 @@ public class GamePanel extends JPanel {
     lasers = new ArrayList<>();
     meteors = new ArrayList<>();
     medicalKits = new ArrayList<>();
+    crates = new ArrayList<>();
     randomGenerator = new RandomGenerator();
     collisionDetector = new CollisionDetector();
   }
@@ -97,6 +101,7 @@ public class GamePanel extends JPanel {
       handleLaser(graphics);
       handleMeteors(graphics);
       handleMedicalKit(graphics);
+      handleCrate(graphics);
       handleScoreAndLives(graphics);
     } else {
       if (timer.isRunning()) {
@@ -172,6 +177,14 @@ public class GamePanel extends JPanel {
     });
   }
 
+  private void handleCrate(Graphics graphics) {
+    crates.forEach(crate -> {
+      if(!crate.isDead()) {
+        crate.update(graphics);
+      }
+    });
+  }
+
   private void handleMeteors(Graphics graphics) {
     meteors.forEach(meteor -> {
       if(!meteor.isDead()) {
@@ -186,12 +199,16 @@ public class GamePanel extends JPanel {
     updateMeteorProbability();
     generateRandomMeteors();
     generateRandomMedicalKit();
+    generateRandomCrate();
     checkWhetherMeteorReachedTheEndOfCanvas();
     removeDeadLaserBeams();
     removeDeadMedicalKit();
+    removeDeadCrate();
     detectLaserMeteorCollision();
     detectSpaceshipMeteorCollision();
     detectSpaceshipMedicalKitCollision();
+    detectSpaceshipCrateCollision();
+    checkIfCrateCollected();
   }
 
   private void detectSpaceshipMeteorCollision() {
@@ -243,6 +260,25 @@ public class GamePanel extends JPanel {
     medicalKits.remove(destroyedMedicalKit[0]);
   }
 
+  private void detectSpaceshipCrateCollision() {
+    final Crate[] destroyedCrates = new Crate[1];
+    destroyedCrates[0] = null;
+
+    crates.forEach(crate -> {
+      if (collisionDetector.collisionBetweenSprites(spaceship, crate)) {
+        destroyedCrates[0] = crate;
+        GameVariables.isCrateCollected = true;
+      }
+    });
+    crates.remove(destroyedCrates[0]);
+  }
+
+  private void checkIfCrateCollected() {
+    if (GameVariables.isCrateCollected) {
+      lasers.forEach(laser -> laser.setImage(new ImageIcon(Constants.LASER_UPGRADED_URL).getImage()));
+    }
+  }
+
   private void removeDeadLaserBeams() {
     List<Laser> destroyedLasers = new ArrayList<>();
 
@@ -263,6 +299,17 @@ public class GamePanel extends JPanel {
       }
     });
     medicalKits.removeAll(destroyedMedicalKits);
+  }
+
+  private void removeDeadCrate() {
+    List<Crate> destroyedCrates = new ArrayList<>();
+
+    crates.forEach(crate -> {
+      if (crate.isDead()) {
+        destroyedCrates.add(crate);
+      }
+    });
+    crates.removeAll(destroyedCrates);
   }
 
   private void checkWhetherMeteorReachedTheEndOfCanvas() {
@@ -287,6 +334,14 @@ public class GamePanel extends JPanel {
       int randomX = randomGenerator.generateRandomX();
       int randomY = -Constants.MEDICAL_KIT_HEIGHT;
       medicalKits.add(new MedicalKit(randomX, randomY));
+    }
+  }
+
+  private void generateRandomCrate() {
+    if (GameVariables.score >= 2500 && randomGenerator.isCrateGenerated() && crates.isEmpty()) {
+      int randomX = randomGenerator.generateRandomX();
+      int randomY = -Constants.CRATE_HEIGHT;
+      crates.add(new Crate(randomX, randomY));
     }
   }
 

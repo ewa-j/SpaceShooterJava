@@ -11,4 +11,5 @@ public class GameVariables {
   public static volatile int score = 0;
   public static int meteorSpeed = 2;
   public static double meteorProbability = 0.01;
+  public static boolean isCrateCollected = false;
 }
