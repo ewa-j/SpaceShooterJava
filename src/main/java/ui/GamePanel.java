@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
 
     int key = keyEvent.getKeyCode();
 
-    if (key == KeyEvent.VK_SPACE && GameVariables.IN_GAME) {
+    if (key == KeyEvent.VK_SPACE && GameVariables.inGame) {
       int x = spaceship.getX();
       int y = spaceship.getY();
 
@@ -91,7 +91,7 @@ public class GamePanel extends JPanel {
 
   private void handleCanvas(Graphics graphics) {
 
-    if (GameVariables.IN_GAME) {
+    if (GameVariables.inGame) {
       handleBackground(graphics);
       handleSpaceship(graphics);
       handleLaser(graphics);
@@ -111,7 +111,7 @@ public class GamePanel extends JPanel {
 
   private void handleScoreAndLives(Graphics graphics) {
 
-    if(!GameVariables.IN_GAME) {
+    if(!GameVariables.inGame) {
       return;
     }
     setFontForScoreAndLives(graphics);
@@ -120,11 +120,11 @@ public class GamePanel extends JPanel {
   }
 
   private void drawLivesOnCanvas(Graphics graphics) {
-    graphics.drawString(Constants.LIVES_STRING + GameVariables.LIVES, 50, 50);
+    graphics.drawString(Constants.LIVES_STRING + GameVariables.lives, 50, 50);
   }
 
   private void drawScoreOnCanvas(Graphics graphics) {
-    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH-150, 50);
+    graphics.drawString(Constants.SCORE_STRING + GameVariables.score, Constants.FRAME_WIDTH-150, 50);
   }
 
   private void setFontForScoreAndLives(Graphics graphics) {
@@ -145,7 +145,7 @@ public class GamePanel extends JPanel {
 //    draw score
     graphics.setColor(Color.YELLOW);
     graphics.setFont(font);
-    graphics.drawString(Constants.SCORE_STRING + GameVariables.SCORE, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth(Constants.SCORE_STRING + GameVariables.SCORE)/2, Constants.FRAME_HEIGHT-300);
+    graphics.drawString(Constants.SCORE_STRING + GameVariables.score, Constants.FRAME_WIDTH/2 - fontMetrics.stringWidth(Constants.SCORE_STRING + GameVariables.score)/2, Constants.FRAME_HEIGHT-300);
   }
 
   private void handleBackground(Graphics graphics) {
@@ -201,9 +201,9 @@ public class GamePanel extends JPanel {
     meteors.forEach(meteor -> {
       if (collisionDetector.collisionBetweenSprites(spaceship, meteor)) {
         destroyedMeteor[0] = meteor;
-        GameVariables.LIVES--;
+        GameVariables.lives--;
 
-        if(GameVariables.LIVES < 1 ) {
+        if(GameVariables.lives < 1 ) {
           spaceship.die();
         }
       }
@@ -221,7 +221,7 @@ public class GamePanel extends JPanel {
           if (collisionDetector.collisionBetweenSprites(laser, meteor)) {
             destroyedMeteor[0] = meteor;
             destroyedLaser[0] = laser;
-            GameVariables.SCORE += 20;
+            GameVariables.score += 20;
           }
         }
         meteors.remove(destroyedMeteor[0]);
@@ -237,7 +237,7 @@ public class GamePanel extends JPanel {
     medicalKits.forEach(medicalKit -> {
       if (collisionDetector.collisionBetweenSprites(spaceship, medicalKit)) {
         destroyedMedicalKit[0] = medicalKit;
-        GameVariables.LIVES++;
+        GameVariables.lives++;
       }
     });
     medicalKits.remove(destroyedMedicalKit[0]);
@@ -283,7 +283,7 @@ public class GamePanel extends JPanel {
   }
 
   private void generateRandomMedicalKit() {
-    if (GameVariables.LIVES <= 2 && randomGenerator.isMedicalKitGenerated() && medicalKits.isEmpty()) {
+    if (GameVariables.lives <= 2 && randomGenerator.isMedicalKitGenerated() && medicalKits.isEmpty()) {
       int randomX = randomGenerator.generateRandomX();
       int randomY = -Constants.MEDICAL_KIT_HEIGHT;
       medicalKits.add(new MedicalKit(randomX, randomY));
@@ -292,44 +292,44 @@ public class GamePanel extends JPanel {
 
   private void isGameOver() {
     if (spaceship.isDead()) {
-      GameVariables.IN_GAME = false;
+      GameVariables.inGame = false;
     }
   }
 
   private static void updateMeteorSpeed() {
-    if (GameVariables.SCORE >= 200) {
+    if (GameVariables.score >= 200) {
       GameVariables.meteorSpeed = 3;
-    } else if (GameVariables.SCORE >= 400) {
+    } else if (GameVariables.score >= 400) {
       GameVariables.meteorSpeed = 5;
-    } else if (GameVariables.SCORE >= 700) {
+    } else if (GameVariables.score >= 700) {
       GameVariables.meteorSpeed = 6;
-    } else if (GameVariables.SCORE >= 1300) {
+    } else if (GameVariables.score >= 1300) {
       GameVariables.meteorSpeed = 7 ;
-    } else if (GameVariables.SCORE >= 2000) {
+    } else if (GameVariables.score >= 2000) {
       GameVariables.meteorSpeed = 9;
-    } else if (GameVariables.SCORE >= 3500) {
+    } else if (GameVariables.score >= 3500) {
       GameVariables.meteorSpeed = 11;
     }
   }
 
   private static void updateMeteorProbability() {
-    if (GameVariables.SCORE >= 300) {
+    if (GameVariables.score >= 300) {
       GameVariables.meteorProbability = 0.015;
-    } else if (GameVariables.SCORE >= 500) {
+    } else if (GameVariables.score >= 500) {
       GameVariables.meteorProbability = 0.020;
-    } else if (GameVariables.SCORE >= 900) {
+    } else if (GameVariables.score >= 900) {
       GameVariables.meteorProbability = 0.025;
-    } else if (GameVariables.SCORE >= 1100) {
+    } else if (GameVariables.score >= 1100) {
       GameVariables.meteorProbability = 0.040;
-    } else if (GameVariables.SCORE >= 1400) {
+    } else if (GameVariables.score >= 1400) {
       GameVariables.meteorProbability = 0.043;
-    } else if (GameVariables.SCORE >= 1600) {
+    } else if (GameVariables.score >= 1600) {
       GameVariables.meteorProbability = 0.060;
-    } else if (GameVariables.SCORE >= 2300) {
+    } else if (GameVariables.score >= 2300) {
       GameVariables.meteorProbability = 0.085;
-    } else if (GameVariables.SCORE >= 2600) {
+    } else if (GameVariables.score >= 2600) {
       GameVariables.meteorProbability = 0.090;
-    } else if (GameVariables.SCORE >= 3000) {
+    } else if (GameVariables.score >= 3000) {
       GameVariables.meteorProbability = 0.100;
     }
   }
