@@ -1,16 +1,16 @@
-package objects;
+package model;
 
-import constants.Constants;
+import utils.Constants;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 
-public class Spaceship extends Sprite{
+public class Spaceship extends Sprite {
 
   private int dx;
-  private List<ImageIcon> frames;
+  private final List<ImageIcon> frames;
   private int imageIndex;
 
   public Spaceship() {

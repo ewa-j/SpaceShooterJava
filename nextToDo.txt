@@ -1,0 +1,8 @@
+
+- new laser kit
+- collision detection ship-medical kit
+- change laser sprite
+
+- change collision detection algorithm
+
+- change background

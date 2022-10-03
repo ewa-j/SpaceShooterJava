@@ -1,15 +1,14 @@
-package objects;
+package model;
 
-import constants.Constants;
+import lombok.NoArgsConstructor;
+import utils.Constants;
 import image.ImageFactory;
 import image.ImageType;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
+@NoArgsConstructor
 public class Laser extends Sprite{
-
-  public Laser() {
-  }
 
   public Laser(int x, int y) {
     this.x = x;

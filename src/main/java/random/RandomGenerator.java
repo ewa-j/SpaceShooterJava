@@ -1,7 +1,8 @@
 package random;
 
-import constants.Constants;
+import utils.Constants;
 import java.util.Random;
+import utils.GameVariables;
 
 public class RandomGenerator {
 
@@ -12,7 +13,18 @@ public class RandomGenerator {
   }
 
   public boolean isMeteorGenerated() {
-    return random.nextDouble() < Constants.METEOR_PROBABILITY;
+    return random.nextDouble() < GameVariables.meteorProbability;
+  }
+
+  public boolean isMedicalKitGenerated() {
+    return random.nextDouble() < Constants.MEDICAL_KIT_PROBABILITY;
+  }
+
+  public boolean isCrateGenerated() {
+    if (!GameVariables.isCrateCollected) {
+      return random.nextDouble() < Constants.CRATE_PROBABILITY;
+    }
+    return false;
   }
 
   public int generateRandomX() {

@@ -1,33 +1,20 @@
 package ui;
 
-import constants.Constants;
-import objects.Sprite;
+import model.Sprite;
 
 public class CollisionDetector {
 
-  public boolean collisionLaserMeteor(Sprite laser, Sprite meteor) {
+  public boolean collisionBetweenSprites(Sprite spriteOne, Sprite spriteTwo) {
 
-    int laserX = laser.getX();
-    int laserY = laser.getY();
-    int meteorX = meteor.getX();
-    int meteorY = meteor.getY();
+    int spriteOneX = spriteOne.getX();
+    int spriteOneY = spriteOne.getY();
+    int spriteTwoX = spriteTwo.getX();
+    int spriteTwoY = spriteTwo.getY();
 
-    return laserX < meteorX + Constants.METEOR_WIDTH &&
-        meteorX < laserX + Constants.LASER_WIDTH &&
-        laserY < meteorY + Constants.METEOR_HEIGHT &&
-        meteorY < laserY + Constants.LASER_HEIGHT;
+    return spriteOneX < spriteTwoX + spriteTwo.getImage().getWidth(null) &&
+        spriteTwoX < spriteOneX + spriteOne.getImage().getWidth(null) &&
+        spriteOneY < spriteTwoY + spriteTwo.getImage().getHeight(null) &&
+        spriteTwoY < spriteOneY + spriteOne.getImage().getHeight(null);
   }
 
-  public boolean collisionMeteorSpaceship(Sprite spaceship, Sprite meteor) {
-
-    int spaceshipX = spaceship.getX();
-    int spaceshipY = spaceship.getY();
-    int meteorX = meteor.getX();
-    int meteorY = meteor.getY();
-
-    return spaceshipX < meteorX + Constants.METEOR_WIDTH &&
-        meteorX < spaceshipX + Constants.SHIP_WIDTH &&
-        spaceshipY < meteorY + Constants.METEOR_HEIGHT &&
-        meteorY < spaceshipY + Constants.SHIP_HEIGHT;
-  }
 }
