@@ -18,7 +18,7 @@ public class Constants {
   public static final String LIVES_STRING = "Lives: ";
 
   public static final String LOGO_URL = "src/main/resources/images/meteor.png";
-  public static final String BACKGROUND_URL = "src/main/resources/images/background.jpg";
+  public static final String BACKGROUND_URL = "src/main/resources/images/outer-space.jpg";
   public static final String LASER_URL = "src/main/resources/images/laser_shot.png";
   public static final String LASER_UPGRADED_URL = "src/main/resources/images/laser_sprite.png";
   public static final String MEDICAL_KIT_URL = "src/main/resources/images/medical_kit.png";
